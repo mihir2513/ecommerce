@@ -10,21 +10,57 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Copyright from "../Extra/Copyright";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { postUser } from "../../service/User";
 
 const theme = createTheme();
+
 const SingUp = () => {
+  const [isError, setIsError] = useState(false);
+  const [userData, setUserData] = useState({
+    userFirstName: "",
+    userLastName: "",
+    userMobileNo: "",
+    userEmail: "",
+    userPassword: "",
+    userImg: "",
+    userAddress: "",
+  });
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onsubmit = (data) => {
-    console.log(data);
+    console.log(data.userImg[0])
+    setUserData({
+      userFirstName: data.userFirstName,
+      userLastName: data.userLastName,
+      userMobileNo: Number(data.userMobileNo),
+      userEmail: data.userEmail,
+      userPassword: data.userPassword,
+      userImg: data.userImg[0],
+      userAddress: data.userAddress,
+    });
+    postUser(userData)
+      .then((res) => {
+        console.log(res);
+        if (res.errno===1062) {
+          setIsError(true);
+        } else {
+          setIsError(false);
+        }
+      })
+      .catch((error) => {
+        setIsError(true);
+        console.error("There was an error!", error);
+      });
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -61,65 +97,71 @@ const SingUp = () => {
             <Typography component="h1" variant="h5">
               Sign Up
             </Typography>
+            {isError && (
+              <Typography color="error" variant="subtitel1">
+                This email is already associated with another account
+              </Typography>
+            )}
+
             <Box component="form" noValidate sx={{ mt: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="given-name"
-                    name="firstName"
+                    name="userFirstName"
                     required
                     fullWidth
-                    id="firstName"
+                    id="userFirstName"
                     label="First Name"
                     autoFocus
-                    {...register("firstName", {
+                    {...register("userFirstName", {
                       required: "First Name is required.",
                       pattern: {
                         value: /^[A-Za-z-]+$/,
                         message: "plese enter only name",
                       },
                     })}
-                    error={Boolean(errors.firstName)}
-                    helperText={errors.firstName?.message}
+                    error={Boolean(errors.userFirstName)}
+                    helperText={errors.userFirstName?.message}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     fullWidth
-                    id="lastName"
+                    id="userLastName"
                     label="Last Name"
-                    name="lastName"
+                    name="userLastName"
                     autoComplete="family-name"
-                    {...register("lastName", {
+                    {...register("userLastName", {
                       required: "Last Name is required.",
                       pattern: {
                         value: /^[A-Za-z-]+$/,
                         message: "plese enter only name",
                       },
                     })}
-                    error={Boolean(errors.lastName)}
-                    helperText={errors.lastName?.message}
+                    error={Boolean(errors.userLastName)}
+                    helperText={errors.userLastName?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="number"
+                    id="userMobileNo"
                     type="number"
                     label="Mobile number"
-                    name="mobileNo"
+                    name="userMobileNo"
                     autoComplete="mobile-no"
-                    {...register("mobileNo", {
+                    {...register("userMobileNo", {
                       required: "Mobile Number is required.",
                       pattern: {
                         value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
                         message: "plese enter only valid Mobile number",
                       },
                     })}
-                    error={Boolean(errors.mobileNo)}
-                    helperText={errors.mobileNo?.message}
+                    error={Boolean(errors.userMobileNo)}
+                    helperText={errors.userMobileNo?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -129,55 +171,70 @@ const SingUp = () => {
                     id="address"
                     type="text"
                     label="Address"
-                    name="address"
+                    name="userAddress"
                     rows="3"
                     multiline={true}
                     autoComplete="Address"
-                    {...register("address", {
+                    {...register("userAddress", {
                       required: "Address is required.",
                     })}
-                    error={Boolean(errors.address)}
-                    helperText={errors.address?.message}
+                    error={Boolean(errors.userAddress)}
+                    helperText={errors.userAddress?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="email"
+                    id="userEmail"
                     label="Email Address"
                     name="email"
-                    autoComplete="email"
-                    {...register("email", {
+                    autoComplete="userEmail"
+                    {...register("userEmail", {
                       required: "Email is required.",
                       pattern: {
                         value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                         message: "plese enter only valid email",
                       },
                     })}
-                    error={Boolean(errors.email)}
-                    helperText={errors.email?.message}
+                    error={Boolean(errors.userEmail)}
+                    helperText={errors.userEmail?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    name="password"
+                    name="userPassword"
                     label="Password"
                     type="password"
-                    id="password"
+                    id="userPassword"
                     autoComplete="new-password"
-                    {...register("password", {
+                    {...register("userPassword", {
                       required: "Password is required.",
                       pattern: {
                         value:
                           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                        message: "plese enter only valid email",
+                        message: "plese enter only valid password",
                       },
                     })}
-                    error={Boolean(errors.password)}
-                    helperText={errors.password?.message}
+                    error={Boolean(errors.userPassword)}
+                    helperText={errors.userPassword?.message}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="userImg"
+                    type="file"
+                    id="img"
+                    autoComplete="img"
+                    {...register("userImg", {
+                      required: "Password is required.",
+                    })}
+                    error={Boolean(errors.userImg)}
+                    helperText={errors.userImg?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>

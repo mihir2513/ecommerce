@@ -146,9 +146,6 @@ const Details = () => {
         <Grid
           container
           spacing={1}
-          // sx={{
-          //   mt: "2",
-          // }}
         >
           <Grid item xs={12} sm={6} lg={6}>
             <Button
