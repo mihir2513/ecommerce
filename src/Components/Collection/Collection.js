@@ -62,7 +62,8 @@ const Collection = () => {
           <Grid item xs md sm />
           {data.map((item, i) => (
             <ProductCard
-              id={i}
+              key={i}
+              id={item.id}
               className={classes.productCard}
               img={item.img}
               title={item.title}

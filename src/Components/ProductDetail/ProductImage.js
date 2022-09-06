@@ -1,21 +1,20 @@
-import img1 from "../../assets/1_1.jpg";
-import img2 from "../../assets/1_2.jpg";
-import img3 from "../../assets/1_3.jpg";
-import img4 from "../../assets/1_4.jpg";
 import { Carousel } from "react-carousel-minimal";
-const ProductImage = () => {
+const ProductImage = (props) => {
   const data = [
     {
-      image: img1,
+      image: `http://localhost:5000/public/images/product/${props.productImage}`,
     },
     {
-      image: img2,
+      image: `http://localhost:5000/public/images/product/${props.image1}`,
     },
     {
-      image: img3,
+      image: `http://localhost:5000/public/images/product/${props.image2}`,
     },
     {
-      image: img4,
+      image: `http://localhost:5000/public/images/product/${props.image3}`,
+    },
+    {
+      image: `http://localhost:5000/public/images/product/${props.image4}`,
     },
   ];
   const slideNumberStyle = {

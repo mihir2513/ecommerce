@@ -9,13 +9,13 @@ const HeaderBottom = () => {
     <>
       <Box className={classes.headerBottom}>
         <Grid container>
-          <Grid item xs={3} />
+          <Grid item xs />
           <Grid item xs={1}>
             <Link to="/header/products">
-              <Tab label="Item One" />
+              <Tab label="Products" />
             </Link>
           </Grid>
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <Tab label="Item One" />
           </Grid>
           <Grid item xs={1}>
@@ -29,7 +29,8 @@ const HeaderBottom = () => {
           </Grid>
           <Grid item xs={1}>
             <Tab label="Item One" />
-          </Grid>
+          </Grid> */}
+            <Grid item xs />
         </Grid>
       </Box>
       {/* </Box> */}

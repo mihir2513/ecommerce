@@ -20,7 +20,7 @@ const ListTop = () => {
         }}
       >
         <Toolbar sx={{ flexWrap: "wrap" }}>
-          {/* <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+          {/* <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
             Company name
           </Typography> */}
           <Box sx={{ flexGrow: 1 }}>

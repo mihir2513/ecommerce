@@ -13,23 +13,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Copyright from "../Extra/Copyright";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+// import axios from "axios";
 import { postUser } from "../../service/User";
 
 const theme = createTheme();
 
 const SingUp = () => {
   const [isError, setIsError] = useState(false);
-  const [userData, setUserData] = useState({
-    userFirstName: "",
-    userLastName: "",
-    userMobileNo: "",
-    userEmail: "",
-    userPassword: "",
-    userImg: "",
-    userAddress: "",
-  });
   const navigate = useNavigate();
   const {
     register,
@@ -37,23 +28,25 @@ const SingUp = () => {
     formState: { errors },
   } = useForm();
   const onsubmit = (data) => {
-    console.log(data.userImg[0])
-    setUserData({
-      userFirstName: data.userFirstName,
-      userLastName: data.userLastName,
-      userMobileNo: Number(data.userMobileNo),
-      userEmail: data.userEmail,
-      userPassword: data.userPassword,
-      userImg: data.userImg[0],
-      userAddress: data.userAddress,
-    });
-    postUser(userData)
+    console.log(data.userImg[0]);
+    console.log(data);
+    const formData = new FormData();
+    formData.append("userFirstName", data.userFirstName);
+    formData.append("userLastName", data.userLastName);
+    formData.append("userMobileNo", Number(data.userMobileNo));
+    formData.append("userEmail", data.userEmail);
+    formData.append("userPassword", data.userPassword);
+    formData.append("userImg", data.userImg[0]);
+    formData.append("userAddress", data.userAddress);
+    console.log(formData);
+    postUser(formData)
       .then((res) => {
         console.log(res);
-        if (res.errno===1062) {
-          setIsError(true);
-        } else {
+        if (res.affectedRows === 1) {
           setIsError(false);
+          navigate("/login");
+        } else {
+          setIsError(true);
         }
       })
       .catch((error) => {

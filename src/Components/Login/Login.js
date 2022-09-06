@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,11 +11,21 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Copyright from "../Extra/Copyright";
+import { loginUser } from "../../service/User";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { IsAutharized } from "../../redux/User/UserSlice";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+
 const theme = createTheme();
 const Login = () => {
+  const navigate = useNavigate();
+  const disptch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [isInValid, setIsInValid] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,6 +33,24 @@ const Login = () => {
   } = useForm();
   const onsubmit = (data) => {
     console.log(data);
+    loginUser(data).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        navigate("/");
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("firstname", res.data[0].useFirstName);
+        localStorage.setItem("lastname", res.data[0].userLastName);
+        localStorage.setItem("mobile", res.data[0].userMobileNo);
+        localStorage.setItem("address", res.data[0].userAddress);
+        localStorage.setItem("email", res.data[0].userEmail);
+        localStorage.setItem("image", res.data[0].userImage);
+        localStorage.setItem("password", res.data[0].userPassword);
+        disptch(IsAutharized(true));
+        console.log(user);
+      } else {
+        setIsInValid(true);
+      }
+    });
   };
 
   return (
@@ -62,6 +89,11 @@ const Login = () => {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+            {isInValid && (
+              <Typography color="error" variant="subtitel1">
+                You Enter Wrong Email or Password
+              </Typography>
+            )}
             <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
@@ -69,29 +101,29 @@ const Login = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                name="userEmail"
                 autoComplete="email"
                 autoFocus
-                {...register("email", {
+                {...register("userEmail", {
                   required: "Email is required.",
                   pattern: {
                     value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                     message: "plese enter only valid email",
                   },
                 })}
-                error={Boolean(errors.email)}
-                helperText={errors.email?.message}
+                error={Boolean(errors.userEmail)}
+                helperText={errors.userEmail?.message}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="userPassword"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                {...register("password", {
+                {...register("userPassword", {
                   required: "Password is required.",
                   pattern: {
                     value:
@@ -99,13 +131,13 @@ const Login = () => {
                     message: "plese enter only valid email",
                   },
                 })}
-                error={Boolean(errors.password)}
-                helperText={errors.password?.message}
+                error={Boolean(errors.userPassword)}
+                helperText={errors.userPassword?.message}
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth

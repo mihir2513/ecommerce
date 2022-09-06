@@ -5,32 +5,20 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Copyright from "../Extra/Copyright";
 
-const Footer = (props) => {
-  const { description, title } = props;
-
+const Footer = () => {
   return (
     <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
       <Container maxWidth="lg">
-        <Typography variant="h6" align="center" gutterBottom>
-          {title}
-        </Typography>
+        <Typography variant="h6" align="center" gutterBottom></Typography>
         <Typography
           variant="subtitle1"
           align="center"
-          color="text.secondary"
           component="p"
-        >
-          {description}
-        </Typography>
+        ></Typography>
         <Copyright />
       </Container>
     </Box>
   );
-};
-
-Footer.propTypes = {
-  description: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default Footer;

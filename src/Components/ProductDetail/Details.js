@@ -4,18 +4,21 @@ import { useState } from "react";
 import CustomFormLabel from "../CustomElements/CustomFormLabel";
 import CustomSelect from "../CustomElements/CustomSelect";
 import FeatherIcon from "feather-icons-react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/Cart/CartSlice";
 
-const Details = () => {
-  const [size, setSize] = useState("10");
+const Details = (props) => {
+  // const [size, setSize] = useState("10");
 
-  const handleChange2 = (event2) => {
-    setSize(event2.target.value);
-  };
+  // const handleChange2 = (event2) => {
+  //   setSize(event2.target.value);
+  // };
   const [qty, setQty] = useState("10");
-
+  const dispatch = useDispatch();
   const handleChange3 = (event3) => {
     setQty(event3.target.value);
   };
+
   return (
     <>
       <Typography
@@ -29,7 +32,7 @@ const Details = () => {
           mt: "5px",
         }}
       >
-        Nike branding shoes
+        {props.productName}
       </Typography>
       <Typography
         variant="body1"
@@ -40,8 +43,7 @@ const Details = () => {
           //   {console.loj}
         }}
       >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ex arcu,
-        tincidunt bibendum felis.
+        {props.productDecription}
       </Typography>
       <Typography
         fontWeight="600"
@@ -54,7 +56,7 @@ const Details = () => {
           mt: "20px",
         }}
       >
-        $546.00
+        ${props.productPrice}
       </Typography>
       <Divider />
       <Box
@@ -64,17 +66,17 @@ const Details = () => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} lg={6}>
-            <Box display="flex" alignItems="center">
-              <CustomFormLabel
+          {/* <Grid item xs={12} sm={6} lg={6}> */}
+          {/* <Box display="flex" alignItems="center"> */}
+          {/* <CustomFormLabel
                 htmlFor="qty-select-outlined"
                 sx={{
                   mt: 0,
                 }}
               >
                 Size.
-              </CustomFormLabel>
-              <Box
+              </CustomFormLabel> */}
+          {/* <Box
                 sx={{
                   ml: 2,
                   width: "180px",
@@ -96,9 +98,9 @@ const Details = () => {
                     <MenuItem value={50}>5</MenuItem>
                   </CustomSelect>
                 </FormControl>
-              </Box>
-            </Box>
-          </Grid>
+              </Box> */}
+          {/* </Box> */}
+          {/* </Grid> */}
           <Grid item xs={12} sm={6} lg={6}>
             <Box display="flex" alignItems="center">
               <CustomFormLabel
@@ -143,10 +145,7 @@ const Details = () => {
           pb: 3,
         }}
       >
-        <Grid
-          container
-          spacing={1}
-        >
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={6} lg={6}>
             <Button
               variant="contained"
@@ -172,6 +171,16 @@ const Details = () => {
               display="flex"
               alignitems="center"
               justifycontent="center"
+              onClick={() =>
+                dispatch(
+                  addToCart({
+                    id: props.productId,
+                    img: props.productImage,
+                    title: props.productName,
+                    price: props.productPrice,
+                  })
+                )
+              }
               sx={{
                 pt: "13px",
                 pb: "13px",

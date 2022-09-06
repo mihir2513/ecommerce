@@ -7,6 +7,10 @@ import ProductDetails from "./Components/ProductDetail/ProductDetails";
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import Products from "./Components/Product/Products";
+import UserProfile from "./Components/userProfile/UserProfile";
+import Checkout from "./Components/Checkout/Checkout";
+import Orders from "./Components/Order/Orders";
+import OrderDetails from "./Components/OrderDetails/OrderDetails";
 
 function App() {
   return (
@@ -19,12 +23,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="header" element={<Header />}>
-            <Route path="productDetails" element={<ProductDetails />} />
+            <Route path="productDetails/:id" element={<ProductDetails />} />
             <Route path="products" element={<Products />} />
           </Route>
-
           <Route path="/singup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/Edit" element={<UserProfile />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/myorders" element={<Orders />} />
+          <Route path="/orderDetails/:id" element={<OrderDetails />} />
         </Routes>
         <Footer />
       </BrowserRouter>
