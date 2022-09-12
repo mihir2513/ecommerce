@@ -198,6 +198,7 @@ const Details = (props) => {
                 component="span"
                 sx={{
                   ml: 1,
+                  whiteSpace:"nowrap",
                 }}
               >
                 Add to Cart

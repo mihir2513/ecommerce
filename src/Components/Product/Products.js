@@ -70,9 +70,7 @@ const Products = () => {
   // ];
   useEffect(() => {
     const getData = async () => {
-      const data = await getProduct();
-      console.log(data);
-      setProductData(data);
+      const data = await getProduct().then((res) => setProductData(res));
       // localStorage.setItem('',)
     };
     getData();
@@ -100,19 +98,21 @@ const Products = () => {
               <ListTop />
             </Grid>
           </Box>
-          <Grid item container spacing={2}>
-            {productData.map((index) => (
-              <Fragment key={index.productId}>
-                <ProductCard
-                  id={index.productId}
-                  img={index.productImage}
-                  title={index.productName}
-                  price={index.productPrice}
-                  colors={index.productColor}
-                />
-              </Fragment>
-            ))}
-          </Grid>
+          <Box style={{ height: "95vh" }}>
+            <Grid item container spacing={2}>
+              {productData.map((index) => (
+                <Fragment key={index.productId}>
+                  <ProductCard
+                    id={index.productId}
+                    img={index.productImage}
+                    title={index.productName}
+                    price={index.productPrice}
+                    colors={index.productColor}
+                  />
+                </Fragment>
+              ))}
+            </Grid>
+          </Box>
         </Grid>
         <Grid item xs md sm />
       </Grid>

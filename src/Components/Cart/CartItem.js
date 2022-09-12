@@ -7,6 +7,7 @@ import {
   decrementQuantity,
   removeItem,
 } from "../../redux/Cart/CartSlice";
+import { IconButton } from "@material-ui/core";
 const CartItem = (props) => {
   const dispatch = useDispatch();
   return (
@@ -51,12 +52,15 @@ const CartItem = (props) => {
           </Button>
         </Box>
 
-        <button
-          className="cartItem__removeButton"
-          onClick={() => dispatch(removeItem(props.id))}
-        >
-          Remove
-        </button>
+        <IconButton onClick={() => dispatch(removeItem(props.id))}>
+          <lord-icon
+            src="https://cdn.lordicon.com/exkbusmy.json"
+            trigger="morph"
+            colors="outline:#121331,primary:#ffffff,secondary:#4bb3fd,tertiary:#ffffff"
+            state="morph-trash-in"
+            style={{ width: "50px", height: "50px" }}
+          ></lord-icon>
+        </IconButton>
       </Box>
       <img
         src={`http://localhost:5000/public/images/product/${props.image}`}

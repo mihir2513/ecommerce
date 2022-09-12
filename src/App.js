@@ -11,7 +11,9 @@ import UserProfile from "./Components/userProfile/UserProfile";
 import Checkout from "./Components/Checkout/Checkout";
 import Orders from "./Components/Order/Orders";
 import OrderDetails from "./Components/OrderDetails/OrderDetails";
-
+import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from "./Components/Login/ForgotPassword";
+import SetPassword from "./Components/Login/SetPassword";
 function App() {
   return (
     <>
@@ -19,6 +21,7 @@ function App() {
     <HeaderStyle/> */}
       {/* <Login/> */}
       {/* <Login2/> */}
+      {/* <ToastContainer> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -26,8 +29,11 @@ function App() {
             <Route path="productDetails/:id" element={<ProductDetails />} />
             <Route path="products" element={<Products />} />
           </Route>
+
           <Route path="/singup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/setpassword/:id" element={<SetPassword />} />
           <Route path="/Edit" element={<UserProfile />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/myorders" element={<Orders />} />
@@ -35,6 +41,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+      {/* </ToastContainer> */}
     </>
   );
 }

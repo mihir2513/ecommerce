@@ -12,13 +12,13 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Copyright from "../Extra/Copyright";
-import { useState } from "react";
-// import axios from "axios";
 import { postUser } from "../../service/User";
+import GoogleLogin from "./GoogleLogin";
+import { useState } from "react";
+import Container from "@mui/material/Container";
+import { mail } from "../../service/mailService";
 
 const theme = createTheme();
-
 const SingUp = () => {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
@@ -45,6 +45,12 @@ const SingUp = () => {
         if (res.affectedRows === 1) {
           setIsError(false);
           navigate("/login");
+          const mailData = {
+            name: data.userEmail,
+            subject: "Sing up",
+            message: "You are successfully registerd",
+          };
+          mail(mailData);
         } else {
           setIsError(true);
         }
@@ -95,7 +101,6 @@ const SingUp = () => {
                 This email is already associated with another account
               </Typography>
             )}
-
             <Box component="form" noValidate sx={{ mt: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -230,14 +235,7 @@ const SingUp = () => {
                     helperText={errors.userImg?.message}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
-                    }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
-                  />
-                </Grid>
+                <Grid item xs={12}></Grid>
               </Grid>
               <Button
                 type="submit"
@@ -249,14 +247,16 @@ const SingUp = () => {
                 Sign Up
               </Button>
               <Grid container>
-                <Grid item xs>
-                  {/* <Link to="/login">Don't have an account? Sign Up</Link> */}
-                </Grid>
+                <Grid item xs></Grid>
                 <Grid item>
                   <Link to="/login"> Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+            </Box>
+            <Box sx={{ py: 3, px: 2, m: "auto", display: "flex" }}>
+              <Container maxWidth="sm">
+                <GoogleLogin text={"Log in with Google"} />
+              </Container>
             </Box>
           </Box>
         </Grid>

@@ -7,6 +7,7 @@ const CollectionStyle = makeStyles((theme) => ({
     paddingLeft: "15px",
     marginRight: "auto",
     marginLeft: "auto",
+    height:"100%"
   },
   title: {
     margin: "auto",

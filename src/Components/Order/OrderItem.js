@@ -1,9 +1,9 @@
-import { Card, CardContent, Typography, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { TableBody, TableRow, TableCell, Avatar } from "@material-ui/core";
+import { TableBody, TableRow, TableCell } from "@material-ui/core";
 const OrderItem = (props) => {
   return (
     <>

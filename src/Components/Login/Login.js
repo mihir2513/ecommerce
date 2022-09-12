@@ -10,18 +10,19 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Copyright from "../Extra/Copyright";
+
 import { loginUser } from "../../service/User";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IsAutharized } from "../../redux/User/UserSlice";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import GoogleLogin from "../SingUp/GoogleLogin";
+import swal from "sweetalert";
+import { Container } from "@material-ui/core";
 
 const theme = createTheme();
 const Login = () => {
   const navigate = useNavigate();
   const disptch = useDispatch();
-  const user = useSelector((state) => state.user);
   const [isInValid, setIsInValid] = useState(false);
   const {
     register,
@@ -43,7 +44,10 @@ const Login = () => {
         localStorage.setItem("image", res.data[0].userImage);
         localStorage.setItem("password", res.data[0].userPassword);
         disptch(IsAutharized(true));
-        console.log(user);
+        swal("You have successfully logged in ", {
+          icon: "success",
+          buttons: false,
+        });
       } else {
         setIsInValid(true);
       }
@@ -146,13 +150,17 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  {/* <Link to="/login">Don't have an account? Sign Up</Link> */}
+                  <Link to="/forgotpassword">Forgot Password</Link>
                 </Grid>
                 <Grid item>
                   <Link to="/singup">Don't have an account? Sign Up</Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+            </Box>
+            <Box sx={{ py: 3, px: 2, m: "auto", display: "flex" }}>
+              <Container maxWidth="sm">
+                <GoogleLogin text={"Log in with Google"} />
+              </Container>
             </Box>
           </Box>
         </Grid>

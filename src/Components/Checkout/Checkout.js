@@ -1,15 +1,12 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../Extra/Copyright";
@@ -20,10 +17,11 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import jwt_decode from "jwt-decode";
 import { addorderdetail } from "../../service/OrderDetailService";
 import { clearCart } from "../../redux/Cart/CartSlice";
+import swal from "sweetalert";
+import { Link } from "react-router-dom";
+
 const steps = ["Shipping address", "Review your order"];
-
 const theme = createTheme();
-
 const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const cart = useSelector((state) => state.cart);
@@ -77,6 +75,12 @@ const Checkout = () => {
               console.log(res);
               if (res.affectedRows > 0) {
                 disptch(clearCart());
+                swal({
+                  title: "Good job!",
+                  text: "Thank you for your order",
+                  icon: "success",
+                  button: "Aww yiss!",
+                });
               }
             }
           );
@@ -133,6 +137,9 @@ const Checkout = () => {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
+                <Link to="/">
+                  <Button>Go To Home Page</Button>
+                </Link>
               </>
             ) : (
               <>

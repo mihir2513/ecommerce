@@ -1,6 +1,5 @@
 // import {  } from "@material-ui/core";
 import { TableBody, TableRow, TableCell, Avatar } from "@material-ui/core";
-import { Typography, CardContent, Card, Box } from "@mui/material";
 import React from "react";
 
 const OrderDetailsItem = (props) => {

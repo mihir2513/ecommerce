@@ -18,7 +18,7 @@ const HeaderTopStyle = makeStyles(() => ({
   headerLogo: {
     textAlign: "left",
     verticalAlign: "middle",
-    maxWidth: "100%",
+    maxWidth: "150%",
     margin: "auto",
   },
   headerSearch: {

@@ -6,8 +6,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux/es/exports";
 
-const addresses = ["1 MUI Drive", "Reactville", "Anytown", "99999", "USA"];
-
 export default function Review() {
   const cart = useSelector((state) => state.cart);
   const getTotal = () => {

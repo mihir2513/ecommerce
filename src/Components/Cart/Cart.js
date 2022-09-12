@@ -2,7 +2,6 @@ import { Box, Typography, Button } from "@mui/material";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux/es/exports";
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const getTotal = () => {
@@ -14,6 +13,7 @@ const Cart = () => {
     });
     return { totalPrice, totalQuantity };
   };
+  const onBynow=()=>{}
   return (
     <>
       <Box sx={{ width: "500px", padding: "20px" }}>

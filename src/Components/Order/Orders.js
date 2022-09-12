@@ -12,6 +12,7 @@ import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { IsAutharized } from "../../redux/User/UserSlice";
 import { getorderbyuserId } from "../../service/OrderService";
 import OrderItem from "./OrderItem";
@@ -23,12 +24,12 @@ const Orders = () => {
   useEffect(() => {
     const getProducts = async () => {
       const user = jwtDecode(localStorage.getItem("accessToken"));
-      console.log(user.userId);
+      console.log(user);
       await getorderbyuserId(user.userId).then((res) => {
         console.log(res);
         if (res === undefined) {
           disptch(IsAutharized(false));
-          alert("You are Not authoraized");
+          swal("You are not authorized please login", "Error", "error");
           navigate("/login");
         } else {
           setOrderData(res);
@@ -36,7 +37,7 @@ const Orders = () => {
       });
     };
     getProducts();
-  }, []);
+  }, [disptch, navigate]);
   return (
     <>
       {/* <Card variant="outlined" sx={{ p: 3, m: 2, borderRadius: "20px" }}>

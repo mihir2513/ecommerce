@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux/es/exports";
 import { addToCart } from "../../redux/Cart/CartSlice";
 import { Link } from "react-router-dom";
 const ProductCard = (props) => {
+  console.log(props.id)
   const [state, setState] = useState({
     raised: false,
     shadow: 1,
@@ -20,15 +21,7 @@ const ProductCard = (props) => {
   const url = "http://localhost:5000";
   return (
     <>
-      <Grid
-        item
-        xs={12}
-        lg={3}
-        sm={4}
-        display="flex"
-        alignItems="stretch"
-        key={props.id}
-      >
+      <Grid item xs={12} lg={3} sm={4} display="flex" key={props.id}>
         <Card
           sx={{ maxWidth: 345 }}
           onMouseOver={() => setState({ raised: true, shadow: 3 })}
@@ -40,7 +33,7 @@ const ProductCard = (props) => {
               component="img"
               src={`${url}/public/images/product/${props.img}`}
               alt="Live from space album cover"
-              sx={{ height: "30vh", width: '100%' }}
+              sx={{ height: "30vh", width: "100" }}
             />
             <CardContent>
               <Typography>{props.title}</Typography>
