@@ -17,13 +17,15 @@ import { useDispatch } from "react-redux";
 import { IsAutharized } from "../../redux/User/UserSlice";
 import GoogleLogin from "../SingUp/GoogleLogin";
 import swal from "sweetalert";
-import { Container } from "@material-ui/core";
+import { Container, IconButton } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const theme = createTheme();
 const Login = () => {
   const navigate = useNavigate();
   const disptch = useDispatch();
   const [isInValid, setIsInValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -121,7 +123,7 @@ const Login = () => {
                 fullWidth
                 name="userPassword"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
                 {...register("userPassword", {
@@ -132,6 +134,17 @@ const Login = () => {
                     message: "plese enter only valid email",
                   },
                 })}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={() => setShowPassword((s) => !s)}>
+                      {showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff/>
+                      )}
+                    </IconButton>
+                  ),
+                }}
                 error={Boolean(errors.userPassword)}
                 helperText={errors.userPassword?.message}
               />

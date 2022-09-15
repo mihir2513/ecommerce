@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux/es/exports";
 import { addToCart } from "../../redux/Cart/CartSlice";
 import { Link } from "react-router-dom";
 const ProductCard = (props) => {
-  console.log(props.id)
+  console.log(props.id);
   const [state, setState] = useState({
     raised: false,
     shadow: 1,
@@ -51,6 +51,7 @@ const ProductCard = (props) => {
                         img: props.img,
                         title: props.title,
                         price: props.price,
+                        qty: 1,
                       })
                     )
                   }

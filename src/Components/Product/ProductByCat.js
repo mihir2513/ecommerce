@@ -3,15 +3,20 @@ import { Box } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import ListTop from "./ListTop";
 import ProductCard from "../Collection/ProductCard";
-import { getProduct } from "../../service/ProductService";
-const Products = () => {
+import { getproductbycatid } from "../../service/ProductService";
+import { useParams } from "react-router-dom";
+
+const ProductByCat = () => {
   const [productData, setProductData] = useState([]);
+  const catid = useParams();
   useEffect(() => {
-    const getData = async () => {
-      const data = await getProduct().then((res) => setProductData(res));
+    const getData = async (id) => {
+      const data = await getproductbycatid(id).then((res) =>
+        setProductData(res)
+      );
     };
-    getData();
-  }, []);
+    getData(catid.id);
+  }, [catid]);
   return (
     <>
       <Grid container spacing={2}>
@@ -57,4 +62,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductByCat;

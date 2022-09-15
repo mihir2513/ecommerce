@@ -14,6 +14,8 @@ import OrderDetails from "./Components/OrderDetails/OrderDetails";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./Components/Login/ForgotPassword";
 import SetPassword from "./Components/Login/SetPassword";
+import ProductByCat from "./Components/Product/ProductByCat";
+import Formimage from "./Formimage";
 function App() {
   return (
     <>
@@ -28,9 +30,11 @@ function App() {
           <Route path="header" element={<Header />}>
             <Route path="productDetails/:id" element={<ProductDetails />} />
             <Route path="products" element={<Products />} />
+            <Route path="productsbycat/:id" element={<ProductByCat />} />
           </Route>
 
           <Route path="/singup" element={<SignUp />} />
+          <Route path="/form" element={<Formimage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/setpassword/:id" element={<SetPassword />} />

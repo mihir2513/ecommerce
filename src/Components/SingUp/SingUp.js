@@ -2,8 +2,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -21,6 +19,12 @@ import { mail } from "../../service/mailService";
 const theme = createTheme();
 const SingUp = () => {
   const [isError, setIsError] = useState(false);
+  const [selectedImage, setSelectedImage] = useState();
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
   const navigate = useNavigate();
   const {
     register,
@@ -221,6 +225,13 @@ const SingUp = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  {selectedImage && (
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      style={{ width: "250px", height: "250px" }}
+                      alt="Thumb"
+                    />
+                  )}
                   <TextField
                     required
                     fullWidth
@@ -231,6 +242,7 @@ const SingUp = () => {
                     {...register("userImg", {
                       required: "Password is required.",
                     })}
+                    onChange={imageChange}
                     error={Boolean(errors.userImg)}
                     helperText={errors.userImg?.message}
                   />

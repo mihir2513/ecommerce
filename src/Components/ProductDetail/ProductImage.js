@@ -35,6 +35,7 @@ const ProductImage = (props) => {
         slideBackgroundColor="darkgrey"
         slideImageFit="cover"
         thumbnails={true}
+        automatic={true}
         thumbnailWidth="100px"
         style={{
           textAlign: "center",

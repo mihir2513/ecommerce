@@ -1,9 +1,13 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, IconButton } from "@mui/material";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Link } from "react-router-dom";
+import LoginIcon from "@mui/icons-material/Login";
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  console.log(cart.cart);
+  const user = useSelector((state) => state.user);
+  console.log(user.user);
   const getTotal = () => {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -13,7 +17,6 @@ const Cart = () => {
     });
     return { totalPrice, totalQuantity };
   };
-  const onBynow=()=>{}
   return (
     <>
       <Box sx={{ width: "500px", padding: "20px" }}>
@@ -33,26 +36,35 @@ const Cart = () => {
           total ({getTotal().totalQuantity} items) :{" "}
           <strong>${getTotal().totalPrice}</strong>:
         </Typography>
-        {getTotal().totalQuantity > 0 ? (
-          <Link to="/Checkout">
-            <Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              sx={{
-                pt: "13px",
-                pb: "13px",
-                display: "block",
-                width: "100%",
-                mt: "5",
-                borderRadius: "9px",
-              }}
-            >
-              Buy Now
-            </Button>
-          </Link>
+        {user.user ? (
+          <>
+            {getTotal().totalQuantity > 0 ? (
+              <Link to="/Checkout">
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                  sx={{
+                    pt: "13px",
+                    pb: "13px",
+                    display: "block",
+                    width: "100%",
+                    mt: "5",
+                    borderRadius: "9px",
+                  }}
+                >
+                  Buy Now
+                </Button>
+              </Link>
+            ) : null}
+          </>
         ) : (
-          ""
+          <Link to="/login">
+            <IconButton>
+              <LoginIcon />
+              "Please Login"
+            </IconButton>
+          </Link>
         )}
       </Box>
     </>

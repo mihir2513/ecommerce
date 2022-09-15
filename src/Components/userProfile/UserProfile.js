@@ -19,9 +19,16 @@ import CustomFormLabel from "../CustomElements/CustomFormLabel";
 import { editUser, getUserById } from "../../service/User";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const UserProfile = () => {
-  // const [showPassword, setShowPassword] = useState(false);
+  const [selectedImage, setSelectedImage] = useState();
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+      console.log(URL.createObjectURL(e.target.files[0]));
+    }
+  };
   const {
     register,
     handleSubmit,
@@ -198,6 +205,13 @@ const UserProfile = () => {
               helperText={errors.userEmail?.message}
               sx={{ mb: 2 }}
             />
+            {selectedImage && (
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                style={{ width: "250px", height: "250px" }}
+                alt="Thumb"
+              />
+            )}
             <CustomFormLabel htmlFor="name">Image</CustomFormLabel>
             {/* <OutlinedInput
               required
@@ -230,6 +244,7 @@ const UserProfile = () => {
                 </InputAdornment>
               }
             /> */}
+
             <TextField
               required
               fullWidth
@@ -240,6 +255,7 @@ const UserProfile = () => {
               {...register("userImg", {
                 required: "Image is required.",
               })}
+              onChange={imageChange}
               error={Boolean(errors.userImg)}
               helperText={errors.userImg?.message}
               sx={{ mb: 2 }}

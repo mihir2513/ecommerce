@@ -1,4 +1,4 @@
-import { Box, ButtonGroup, Grid, IconButton } from "@material-ui/core";
+import { Box, Grid, IconButton } from "@material-ui/core";
 // import {Autocomplete} from "@mui/lab";
 // import autocomplete
 import Autocomplete from "@mui/material/Autocomplete";
@@ -6,9 +6,6 @@ import { useRef, useState } from "react";
 import HeaderTopLogo from "./HeaderTopLogo";
 import HeaderTopStyle from "./HeaderTopStyle";
 import logo from "../../../assets/logo.png";
-import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
-import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import SearchBar from "material-ui-search-bar";
 import { Link, useNavigate } from "react-router-dom";
 import { Drawer, TextField, Typography } from "@mui/material";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -20,13 +17,13 @@ import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import { searchproduct } from "../../../service/ProductService";
 import SearchIcon from "@mui/icons-material/Search";
+import { clearCart } from "../../../redux/Cart/CartSlice";
 
 const HeaderTop = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const searchref = useRef();
   const navigate = useNavigate();
-  // const [search, setSearch] = useState();
   const [searchRe, setSearchRe] = useState([]);
   const disptch = useDispatch();
   const handleLogOut = () => {
@@ -40,6 +37,7 @@ const HeaderTop = () => {
       if (willDelete) {
         localStorage.clear();
         disptch(IsAutharized(false));
+        disptch(clearCart());
         swal("You have been logged out successfully.", {
           icon: "success",
         });

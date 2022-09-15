@@ -3,9 +3,10 @@ import { Box, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import CustomFormLabel from "../CustomElements/CustomFormLabel";
 import CustomSelect from "../CustomElements/CustomSelect";
-import FeatherIcon from "feather-icons-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/Cart/CartSlice";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const Details = (props) => {
   // const [size, setSize] = useState("10");
@@ -13,8 +14,27 @@ const Details = (props) => {
   // const handleChange2 = (event2) => {
   //   setSize(event2.target.value);
   // };
-  const [qty, setQty] = useState("10");
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const [qty, setQty] = useState("1");
+  console.log(qty);
   const dispatch = useDispatch();
+  const onBynow = () => {
+    if (user.user) {
+      dispatch(
+        addToCart({
+          id: props.productId,
+          img: props.productImage,
+          title: props.productName,
+          price: props.productPrice,
+        })
+      );
+      navigate("/Checkout");
+    } else {
+      swal("You are not Log In please login", "Error", "error");
+      navigate("/login");
+    }
+  };
   const handleChange3 = (event3) => {
     setQty(event3.target.value);
   };
@@ -126,11 +146,11 @@ const Details = (props) => {
                     fullWidth
                     size="small"
                   >
-                    <MenuItem value={10}>1</MenuItem>
-                    <MenuItem value={20}>2</MenuItem>
-                    <MenuItem value={30}>3</MenuItem>
-                    <MenuItem value={40}>4</MenuItem>
-                    <MenuItem value={50}>5</MenuItem>
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
                   </CustomSelect>
                 </FormControl>
               </Box>
@@ -151,6 +171,7 @@ const Details = (props) => {
               variant="contained"
               size="large"
               color="secondary"
+              onClick={onBynow}
               sx={{
                 pt: "13px",
                 pb: "13px",
@@ -178,6 +199,7 @@ const Details = (props) => {
                     img: props.productImage,
                     title: props.productName,
                     price: props.productPrice,
+                    qty: qty,
                   })
                 )
               }
@@ -188,17 +210,17 @@ const Details = (props) => {
                 borderRadius: "9px",
               }}
             >
-              <FeatherIcon
+              {/* <FeatherIcon
                 icon="shopping-cart"
                 width="20"
                 display="flex"
                 alignitems="center"
-              />
+              /> */}
               <Box
                 component="span"
                 sx={{
                   ml: 1,
-                  whiteSpace:"nowrap",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Add to Cart

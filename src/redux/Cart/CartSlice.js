@@ -14,10 +14,12 @@ const cartSlice = createSlice({
       if (itemInCart) {
         itemInCart.quantity++;
       } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
+        state.cart.push({ ...action.payload, quantity: action.payload.qty });
       }
     },
     incrementQuantity: (state, action) => {
+      console.log(action);
+      // console.log(q);
       const item = state.cart.find((item) => item.id === action.payload);
       item.quantity++;
     },

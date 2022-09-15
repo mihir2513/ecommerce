@@ -25,6 +25,14 @@ export const getProductbyid = async (id) => {
     console.log("error while post data", error);
   }
 };
+export const getproductbycatid = async (id) => {
+  try {
+    const response = await axios.get(`${url}/productbycatid/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("error while post data", error);
+  }
+};
 export const getImagesByProductId = async (id) => {
   try {
     const response = await axios.get(`${url}/getImagesByProductId/${id}`);

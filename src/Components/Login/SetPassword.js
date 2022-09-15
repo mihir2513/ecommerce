@@ -14,16 +14,32 @@ import { updateUserPassword } from "../../service/User";
 import { sendMailForgatePassword } from "../../service/mailService";
 import swal from "sweetalert";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { IconButton } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { useState } from "react";
 const theme = createTheme();
 const SetPassword = () => {
   const id = useParams();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfPassword, setShowConfPassword] = useState(false);
+  const formSchema = Yup.object().shape({
+    userPassword: Yup.string()
+      .required("Password is mendatory")
+      .min(3, "Password must be at 3 char long"),
+    confirmpassword: Yup.string()
+      .required("Password is mendatory")
+      .oneOf([Yup.ref("userPassword")], "Passwords does not match"),
+  });
+  const formOptions = { resolver: yupResolver(formSchema) };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm(formOptions);
+
   console.log(id.id);
   const onsubmit = (data) => {
     console.log(data);
@@ -68,7 +84,7 @@ const SetPassword = () => {
                 fullWidth
                 name="userPassword"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
                 {...register("userPassword", {
@@ -79,8 +95,50 @@ const SetPassword = () => {
                     message: "plese enter only valid email",
                   },
                 })}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={() => setShowPassword((s) => !s)}>
+                      {showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff></VisibilityOff>
+                      )}
+                    </IconButton>
+                  ),
+                }}
                 error={Boolean(errors.userPassword)}
                 helperText={errors.userPassword?.message}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirmpassword"
+                label="Password"
+                type={showConfPassword ? "text" : "password"}
+                id="password"
+                autoComplete="current-password"
+                {...register("confirmpassword", {
+                  required: "Password is required.",
+                  pattern: {
+                    value:
+                      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+                    message: "plese enter only valid email",
+                  },
+                })}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={() => setShowConfPassword((s) => !s)}>
+                      {showConfPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff></VisibilityOff>
+                      )}
+                    </IconButton>
+                  ),
+                }}
+                error={Boolean(errors.confirmpassword)}
+                helperText={errors.confirmpassword?.message}
               />
               <Button
                 type="submit"

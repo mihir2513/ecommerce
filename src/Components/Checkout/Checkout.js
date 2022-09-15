@@ -9,7 +9,6 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "../Extra/Copyright";
 import AddressForm from "./AddressForm";
 import Review from "./Review";
 import { addOrder } from "../../service/OrderService";
@@ -19,6 +18,7 @@ import { addorderdetail } from "../../service/OrderDetailService";
 import { clearCart } from "../../redux/Cart/CartSlice";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
+import { mail } from "../../service/mailService";
 
 const steps = ["Shipping address", "Review your order"];
 const theme = createTheme();
@@ -64,6 +64,11 @@ const Checkout = () => {
         throw new Error("Unknown step");
     }
   };
+  const data = {
+    name: localStorage.getItem("email"),
+    subject: "Thank you for order",
+    text: "Thank you for ordering us",
+  };
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     if (activeStep === steps.length - 1) {
@@ -74,6 +79,7 @@ const Checkout = () => {
             (res) => {
               console.log(res);
               if (res.affectedRows > 0) {
+                mail(data).then((res) => console.log(res));
                 disptch(clearCart());
                 swal({
                   title: "Good job!",
@@ -163,7 +169,6 @@ const Checkout = () => {
             )}
           </>
         </Paper>
-        <Copyright />
       </Container>
     </ThemeProvider>
   );
